@@ -6,6 +6,7 @@
 
 namespace Prado;
 
+use Prado\Exceptions\PradoException;
 use Prado\Listeners\ReceiveListener;
 
 require 'bootstrap.php';
@@ -47,9 +48,9 @@ class Prado
 
     protected function parseSocketAddress($socketAddress)
     {
-        $socketAddress = implode(':', $socketAddress);
+        $socketAddress = explode(':', $socketAddress);
         if (sizeof($socketAddress) != 3) {
-            throw new \LengthException('Socket address format is not correct.');
+            throw new PradoException('Socket address format is not correct.');
         }
         $this->protocol = strtolower($socketAddress[0]);
         $this->address = $socketAddress[1];
@@ -70,9 +71,9 @@ class Prado
      */
     protected function checkProtocolExists()
     {
-        $protocolFilePath = PRADO_PATH . DIRECTORY_SEPARATOR . 'Protocols' . DIRECTORY_SEPARATOR . ucfirst($this->protocol) . '.php';
+        $protocolFilePath = PRADO_PATH . DIRECTORY_SEPARATOR . 'Protocols' . DIRECTORY_SEPARATOR . ucfirst($this->protocol) . 'Protocol.php';
         if (!file_exists($protocolFilePath)) {
-            throw new \UnexpectedValueException('Protocol is not exists.');
+            throw new PradoException('Protocol is not exists.');
         }
     }
 
@@ -82,12 +83,12 @@ class Prado
      */
     protected function callServer()
     {
-        $protocolClassName = 'Prado\\Protocols\\' . ucfirst($this->protocol);
+        $protocolClassName = 'Prado\\Protocols\\' . ucfirst($this->protocol) . 'Protocol';
         $protocolObject = new $protocolClassName;
 
         $this->transport = $protocolObject->getTransport();
         if (!in_array($this->transport, array('tcp', 'udp'))) {
-            throw new \UnexpectedValueException('The protocol\'s transport value is not tcp or udp.');
+            throw new PradoException('The protocol\'s transport value is not tcp or udp.');
         }
         $transportServerName = 'Prado\\Servers\\' . ucfirst($this->transport) . 'Server';
         $transportObject = new $transportServerName;

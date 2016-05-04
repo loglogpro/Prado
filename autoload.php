@@ -10,10 +10,10 @@ class AutoLoader
 {
     public static function init($className)
     {
-        $className = preg_replace('/^' . __NAMESPACE__ . '\\/', '', $className);
+        $className = preg_replace('/^' . __NAMESPACE__ . '\\\\/', '', $className);
         $classFile = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-        require PRADO_PATH . DIRECTORY_SEPARATOR . $classFile;
+        require PRADO_PATH . DIRECTORY_SEPARATOR . $classFile . '.php';
     }
 }
 
-spl_autoload_register('AutoLoader::init');
+spl_autoload_register('Prado\\AutoLoader::init');

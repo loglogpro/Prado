@@ -21,6 +21,7 @@ class Libevent implements  EventInterface
     protected function __construct($socketHandler)
     {
         $this->eventBase = event_base_new();
+        $this->socketHandler = $socketHandler;
     }
 
     public static function with($socketHandler)

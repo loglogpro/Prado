@@ -39,7 +39,7 @@ class TcpServer implements ServerInterface
     protected function listen()
     {
         $eventsHandlerMap = array(
-            'libevent',
+            'Libevent',
         );
         foreach ($eventsHandlerMap as $eventName) {
             if (!extension_loaded($eventName)) {
@@ -50,6 +50,7 @@ class TcpServer implements ServerInterface
         if (empty($eventName)) {
             throw new ServerException('The current runtime environment could not support event.');
         }
+        $eventName = 'Prado\\Events\\' . $eventName;
         $callbackName = 'Prado\\Listeners\\ReceiveListener::onReceive';
         $eventName::with($this->socketHandler)
             ->add(EventInterface::EVENT_READ, $callbackName)
