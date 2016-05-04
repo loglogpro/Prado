@@ -13,10 +13,6 @@ class Libevent implements  EventInterface
 {
     protected $eventBase;
     protected $socketHandler;
-    protected $eventFlagMap = array(
-        self::EVENT_READ => EV_READ,
-        self::EVENT_WRITE => EV_WRITE,
-    );
 
     protected function __construct($socketHandler)
     {
@@ -31,11 +27,15 @@ class Libevent implements  EventInterface
 
     public function add($eventFlag, $callback)
     {
-        if (!isset($this->eventFlagMap[$eventFlag])) {
+        $eventFlagMap = array(
+            self::EVENT_READ => EV_READ | EV_PERSIST,
+            self::EVENT_WRITE => EV_WRITE,
+        );
+        if (!isset($eventFlagMap[$eventFlag])) {
             throw new EventException('Event flag is not exists.');
         }
         $event = event_new();
-        event_set($event, $this->socketHandler, $this->eventFlagMap[$eventFlag], $callback, $this->eventBase);
+        event_set($event, $this->socketHandler, $eventFlagMap[$eventFlag], $callback);
         event_base_set($event, $this->eventBase);
         event_add($event);
         return $this;
@@ -48,7 +48,12 @@ class Libevent implements  EventInterface
 
     public function listen()
     {
-        event_base_loop($this->eventBase);
+        $result = event_base_loop($this->eventBase);
+        if ($result == 1) {
+            throw new EventException('No event registered.');
+        } else if ($result != 0) {
+            throw new EventException('Event base loop error.');
+        }
     }
 
 }

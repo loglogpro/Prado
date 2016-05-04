@@ -12,6 +12,7 @@ use Prado\Events\EventInterface;
 
 class TcpServer implements ServerInterface
 {
+    const STREAM_NON_BLOCKING = 0;
     protected $socketAddress;
     protected $socketHandler;
 
@@ -30,7 +31,7 @@ class TcpServer implements ServerInterface
         if (!$this->socketHandler) {
             throw new ServerException($errMessage . '(code:' . $errCode . ')');
         }
-        if (!stream_set_blocking($this->socketHandler, 0)) {
+        if (!stream_set_blocking($this->socketHandler, self::STREAM_NON_BLOCKING)) {
             throw new ServerException('Stream set block failed');
         }
         $this->listen();
