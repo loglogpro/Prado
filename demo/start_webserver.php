@@ -6,6 +6,6 @@
 
 require '../Prado.php';
 
-\Prado\Prado::with('http://127.0.0.1:8888')
+\Prado\Prado::with('http://0.0.0.0:8888')
     ->setOnReceiveListener(function(){echo 'hee';})
     ->run();

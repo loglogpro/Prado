@@ -18,4 +18,6 @@ interface EventInterface {
     public function delete();
 
     public function listen();
+
+    public function read();
 }

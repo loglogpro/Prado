@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ * Http Protocol.
  * @author    Mrqi<https://github.com/mrqi>
  */
 
@@ -22,17 +22,16 @@ class HttpProtocol implements ProtocolInterface
      *
      * @return mixed
      */
-    public function input()
+    public function encrypt()
     {
-        // TODO: Implement input() method.
+        // TODO: Implement encrypt() method.
     }
 
     /**
      * @return mixed
      */
-    public function output()
+    public function decrypt()
     {
-        // TODO: Implement output() method.
+        // TODO: Implement decrypt() method.
     }
-
 }

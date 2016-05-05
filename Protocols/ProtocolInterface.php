@@ -20,11 +20,11 @@ interface ProtocolInterface {
      *
      * @return mixed
      */
-    public function input();
+    public function encrypt();
 
     /**
      * @return mixed
      */
-    public function output();
+    public function decrypt();
 
 }
