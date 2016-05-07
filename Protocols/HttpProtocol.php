@@ -22,16 +22,16 @@ class HttpProtocol implements ProtocolInterface
      *
      * @return mixed
      */
-    public function encrypt()
+    public function encrypt($data)
     {
-        // TODO: Implement encrypt() method.
+        return $data;
     }
 
     /**
      * @return mixed
      */
-    public function decrypt()
+    public function decrypt($data)
     {
-        // TODO: Implement decrypt() method.
+        return $data;
     }
 }

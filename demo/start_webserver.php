@@ -7,5 +7,7 @@
 require '../Prado.php';
 
 \Prado\Prado::with('http://0.0.0.0:8888')
-    ->setOnReceiveListener(function(){echo 'hee';})
+    ->setOnReceiveListener(function($data) {
+        return $data;
+    })
     ->run();

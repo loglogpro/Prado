@@ -8,16 +8,13 @@ namespace Prado\Events;
 
 
 interface EventInterface {
-    const EVENT_READ = 1;
-    const EVENT_WRITE = 2;
 
     public static function with($socketHandler);
 
-    public function add($eventFlag, $callback);
+    public function addReadEvent($callback);
 
     public function delete();
 
     public function listen();
 
-    public function read();
 }

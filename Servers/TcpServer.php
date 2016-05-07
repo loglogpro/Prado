@@ -8,8 +8,8 @@ namespace Prado\Servers;
 
 
 use Prado\Exceptions\ServerException;
-use Prado\Events\EventInterface;
 use Prado\Listeners\ReceiveListener;
+use Prado\Listeners\ResponseListener;
 
 class TcpServer implements ServerInterface
 {
@@ -66,21 +66,20 @@ class TcpServer implements ServerInterface
         $eventName = 'Prado\\Events\\' . $eventName;
         $this->eventObject = $eventName::with($this->socketHandler);
         $this->eventObject
-            ->add(EventInterface::EVENT_READ, array($this, 'onReceive'))
+            ->addReadEvent(array($this, 'onReceive'))
             ->listen();
     }
 
-    public function onReceive($socketHandler, $eventFlag)
+    public function onReceive($receiveData)
     {
-        $connection = stream_socket_accept($socketHandler);
-        stream_set_blocking($connection, self::STREAM_NON_BLOCKING);
-        $receiveData = $this->eventObject->read();
-        $this->protocolObject->decrypt();
-        ReceiveListener::onReceive();
+        $receiveData = $this->protocolObject->decrypt($receiveData);
+        $responseData = ReceiveListener::onReceive($receiveData);
+        $this->response($responseData);
     }
 
-    public function onResponse()
+    protected function response($responseData)
     {
-
+        $responseData = $this->protocolObject->encrypt($responseData);
+        //($responseData);
     }
 }

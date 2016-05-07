@@ -16,8 +16,8 @@ class ReceiveListener
         self::$onReceiveListener = $onReceiveListener;
     }
 
-    public static function onReceive()
+    public static function onReceive($receiveData)
     {
-        call_user_func(self::$onReceiveListener);
+        return call_user_func(self::$onReceiveListener, $receiveData);
     }
 }

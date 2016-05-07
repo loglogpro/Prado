@@ -8,6 +8,7 @@ namespace Prado;
 
 use Prado\Exceptions\PradoException;
 use Prado\Listeners\ReceiveListener;
+use Prado\Listeners\ResponseListener;
 
 require 'bootstrap.php';
 
@@ -43,6 +44,12 @@ class Prado
     public function setOnReceiveListener($onReceiveListener)
     {
         ReceiveListener::setOnReceiveListener($onReceiveListener);
+        return $this;
+    }
+
+    public function setOnResponseListener($onResponseListener)
+    {
+        ResponseListener::setOnResponseListener($onResponseListener);
         return $this;
     }
 
