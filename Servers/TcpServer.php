@@ -74,12 +74,13 @@ class TcpServer implements ServerInterface
     {
         $receiveData = $this->protocolObject->decrypt($receiveData);
         $responseData = ReceiveListener::onReceive($receiveData);
-        $this->response($responseData);
+        return $this->response($responseData);
     }
 
     protected function response($responseData)
     {
         $responseData = $this->protocolObject->encrypt($responseData);
         //($responseData);
+        return $responseData;
     }
 }
